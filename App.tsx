@@ -11,9 +11,16 @@ import {
   SafeAreaProvider,
   useSafeAreaInsets,
 } from 'react-native-safe-area-context';
+import StorybookUI from './.rnstorybook';
+
+declare const STORYBOOK_ENABLED: boolean;
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
+
+  if (STORYBOOK_ENABLED) {
+    return <StorybookUI />;
+  }
 
   return (
     <SafeAreaProvider>
