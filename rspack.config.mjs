@@ -1,6 +1,7 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import * as Repack from '@callstack/repack';
+import { ReanimatedPlugin } from '@callstack/repack-plugin-reanimated';
 import rspack from '@rspack/core';
 import { StorybookPlugin } from '@storybook/react-native/repack/withStorybook';
 
@@ -8,6 +9,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const storybookEnabled = process.env.STORYBOOK_ENABLED === 'true';
+const storybookWebsockets =
+  process.env.STORYBOOK_WEBSOCKETS === 'false' ? undefined : 'auto';
 
 /**
  * Rspack configuration enhanced with Re.Pack defaults for React Native.
@@ -40,12 +43,15 @@ export default Repack.defineRspackConfig({
   },
   plugins: [
     new Repack.RepackPlugin(),
+    new ReanimatedPlugin({
+      unstable_disableTransform: true,
+    }),
     new rspack.DefinePlugin({
       STORYBOOK_ENABLED: JSON.stringify(storybookEnabled),
     }),
     new StorybookPlugin({
       enabled: storybookEnabled,
-      websockets: 'auto',
+      websockets: storybookWebsockets,
       liteMode: true,
     }),
   ],
