@@ -12,19 +12,27 @@ import {
   useSafeAreaInsets,
 } from 'react-native-safe-area-context';
 
-function App() {
+function AppView() {
   const isDarkMode = useColorScheme() === 'dark';
   const safeAreaInsets = useSafeAreaInsets();
 
   return (
-    <SafeAreaProvider>
+    <>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
       <NewAppScreen
         templateFileName="App.tsx"
         safeAreaInsets={safeAreaInsets}
       />
-    </SafeAreaProvider>
+    </>
   );
 }
+
+const App = () => {
+  return (
+    <SafeAreaProvider>
+      <AppView />
+    </SafeAreaProvider>
+  );
+};
 
 export default App;
